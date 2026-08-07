@@ -7,6 +7,7 @@ from app.routers import (
     paciente,
     profissionais,
     unidade_funcional,
+    usuario,
 )
 
 app = FastAPI()
@@ -22,3 +23,5 @@ app.include_router(equipe.router)
 app.include_router(consulta.router)
 
 app.include_router(paciente.router)
+
+app.include_router(usuario.router)
