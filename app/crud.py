@@ -10,7 +10,9 @@ from app.models import (
     Paciente,
     Profissional,
     Unidade_Funcional,
+    Usuario,
 )
+from app.security import gerar_hash
 
 
 def listar_especialidades(db: Session):
@@ -50,6 +52,22 @@ def buscar_consulta_intervalo(db: Session, hora_inicio: time, hora_fim: time):
         .all()
     )
 
-
 def listar_paciente(db: Session):
     return db.query(Paciente).all()
+
+def criar_usuario(db: Session, usuario):
+    senha_hash = gerar_hash(usuario.senha)
+
+    novo_usuario = Usuario(
+        nome=usuario.nome,
+        email=usuario.email,
+        senha_hash=senha_hash,
+        perfil=usuario.perfil
+    )
+
+    db.add(novo_usuario)
+    db.commit()
+    db.refresh(novo_usuario)
+
+    return novo_usuario
+
