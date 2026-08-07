@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from app.routers import (
+    auth,
     consulta,
     equipe,
     especialidade,
@@ -25,3 +26,5 @@ app.include_router(consulta.router)
 app.include_router(paciente.router)
 
 app.include_router(usuario.router)
+
+app.include_router(auth.router)
