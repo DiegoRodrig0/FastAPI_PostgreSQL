@@ -8,7 +8,7 @@ class Especialidade(Base):
 
     __tablename__ = "especialidade"
     id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String, nullable=False)
+    nome = Column(String(150), nullable=False)
     profissional = relationship(
         "Profissional",
         back_populates="especialidade"
@@ -18,9 +18,9 @@ class Unidade_Funcional(Base):
 
     __tablename__ = "unidade_funcional"
     id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String, nullable=False)
-    endereco = Column(String)
-    telefone = Column(String)
+    nome = Column(String(150), nullable=False)
+    endereco = Column(String(150))
+    telefone = Column(String(150))
     equipes = relationship(
         "Equipe",
         back_populates="unidade_funcional"
@@ -30,7 +30,7 @@ class Equipe(Base):
 
     __tablename__ = "equipe"
     id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String, nullable=False)
+    nome = Column(String(150), nullable=False)
     unidade_id = Column(
             Integer,
             ForeignKey("unidade_funcional.id")
@@ -51,7 +51,7 @@ class Profissional(Base):
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String, nullable=False)
     cpf = Column(String, unique=True)
-    crm = Column(String)
+    crm = Column(String(150))
     equipe_id = Column(
         Integer,
         ForeignKey("equipe.id")
@@ -130,8 +130,8 @@ class Paciente(Base):
 
     __tablename__ = "paciente"
     id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String, nullable=False)
-    cpf = Column(String, unique=True)
+    nome = Column(String(150), nullable=False)
+    cpf = Column(String(150), unique=True)
     data_nascimento = Column(Date)
     telefone = Column(String)
     consulta = relationship(
@@ -157,3 +157,12 @@ class Horario(Base):
             "Grade",
             back_populates="horario"
         )
+
+class Usuario(Base):
+
+    __tablename__ = "usuario"
+    id = Column(Integer, primary_key=True, index=True)
+    nome = Column(String(150), nullable=False)
+    email = Column(String(150), unique=True, nullable=False)
+    senha_hash = Column(String(255), nullable=False)
+    perfil = Column(String(30), nullable=False)
