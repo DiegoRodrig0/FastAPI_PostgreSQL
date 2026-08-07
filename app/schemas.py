@@ -1,4 +1,5 @@
 from datetime import date, time
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
@@ -73,5 +74,17 @@ class HorarioBase(BaseModel):
     hora_fim: time
 
 class HorarioResponse(BaseModel):
+    id: int
+    model_config = ConfigDict(from_attributes=True)
+
+class UsuarioBase(BaseModel):
+    nome: str
+    email: str
+    perfil: Literal["ADMIN", "MEDICO", "RECEPCAO"]
+
+class UsuarioCreate(UsuarioBase):
+    senha: str
+
+class UsuarioResponse(UsuarioBase):
     id: int
     model_config = ConfigDict(from_attributes=True)
