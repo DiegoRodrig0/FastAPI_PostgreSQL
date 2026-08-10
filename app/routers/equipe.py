@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
-from app.dependencies import get_db
+from app.dependencies import get_db, get_usuario_atual
 
 router = APIRouter(
     prefix="/equipes",
@@ -13,5 +13,5 @@ router = APIRouter(
     "/",
     response_model=list[schemas.EquipeResponse]
 )
-def listar(db: Session = Depends(get_db)):  # noqa: B008
+def listar(db: Session = Depends(get_db), usuario=Depends(get_usuario_atual)):  # noqa: B008
     return crud.listar_equipe(db)
