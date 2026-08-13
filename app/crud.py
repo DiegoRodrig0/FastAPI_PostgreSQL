@@ -37,8 +37,17 @@ def listar_consulta(db: Session):
 
 def buscar_consulta_unidade(db: Session, unidade_id: int):
     return (
-        db.query(Consulta)
+        db.query(
+            Paciente.nome.label("paciente_nome"),
+            Profissional.nome.label("profissional_nome"),
+            Horario.hora_inicio.label("horario_hora_inicio"),
+            Horario.hora_fim.label("horario_hora_fim"),
+            Consulta.data_consulta,
+            Consulta.observacao
+        )
+        .join(Paciente, Consulta.paciente_id == Paciente.id)
         .join(Profissional, Consulta.profissional_id == Profissional.id)
+        .join(Horario, Consulta.horario_id == Horario.id)
         .join(Equipe, Profissional.equipe_id == Equipe.id)
         .filter(Equipe.unidade_id == unidade_id)
         .all()
