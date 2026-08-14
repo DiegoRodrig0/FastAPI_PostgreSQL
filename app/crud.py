@@ -55,10 +55,20 @@ def buscar_consulta_unidade(db: Session, unidade_id: int):
 
 def buscar_consulta_intervalo(db: Session, hora_inicio: time, hora_fim: time):
     return (
-        db.query(Consulta)
-        .join(Consulta.horario)
-        .filter(Horario.hora_inicio == hora_inicio)
-        .all()
+        db.query(
+                    Paciente.nome.label("paciente_nome"),
+                    Profissional.nome.label("profissional_nome"),
+                    Horario.hora_inicio.label("horario_hora_inicio"),
+                    Horario.hora_fim.label("horario_hora_fim"),
+                    Consulta.data_consulta,
+                    Consulta.observacao
+                )
+                .join(Paciente, Consulta.paciente_id == Paciente.id)
+                .join(Profissional, Consulta.profissional_id == Profissional.id)
+                .join(Horario, Consulta.horario_id == Horario.id)
+                .join(Equipe, Profissional.equipe_id == Equipe.id)
+                .filter(Horario.hora_inicio == hora_inicio)
+                .all()
     )
 
 def listar_paciente(db: Session):
