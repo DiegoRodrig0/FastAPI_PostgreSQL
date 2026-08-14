@@ -1,5 +1,5 @@
 import jwt
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
@@ -51,6 +51,15 @@ def get_usuario_atual(
         raise HTTPException(
             status_code=401,
             detail="Usuário não encontrado"
+        )
+
+    return usuario
+
+def exigir_admin(usuario=Depends(get_usuario_atual)):  # noqa: B008
+    if usuario.perfil != "ADMIN":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Acesso negado"
         )
 
     return usuario
