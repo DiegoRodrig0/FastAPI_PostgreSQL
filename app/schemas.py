@@ -53,6 +53,14 @@ class ConsultaPorUnidade(BaseModel):
     horario_hora_fim: time
     data_consulta: date
     observacao: str | None = None
+
+class ConsultaPorIntervalo(BaseModel):
+    paciente_nome: str
+    profissional_nome: str
+    horario_hora_inicio: time
+    horario_hora_fim: time
+    data_consulta: date
+    observacao: str | None = None
 class ConsultaResponse(ConsultaBase):
     id: int
     model_config = ConfigDict(from_attributes=True)
