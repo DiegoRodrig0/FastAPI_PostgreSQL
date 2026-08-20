@@ -10,7 +10,7 @@ router = APIRouter(
 )
 
 @router.post(
-    "/",
+    "/criar",
     response_model=schemas.UsuarioResponse
 )
 def criar_usuario(

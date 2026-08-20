@@ -12,16 +12,22 @@ router = APIRouter(
 )
 
 @router.get(
-    "/",
+    "/listar",
     response_model=list[schemas.ConsultaResponse]
 )
 def listar(db: Session = Depends(get_db), usuario=Depends(get_usuario_atual)):  # noqa: B008
     return crud.listar_consulta(db)
 
-@router.get("/unidade/{unidade_id}", response_model=list[schemas.ConsultaPorUnidade])
+@router.get(
+    "/unidade/{unidade_id}", 
+    response_model=list[schemas.ConsultaPorUnidade])
+
 def buscar_por_id_unidade(unidade_id: int, db: Session = Depends(get_db), usuario=Depends(exigir_admin)):  # noqa: B008
     return crud.buscar_consulta_unidade(db, unidade_id)
 
-@router.get("/intervalo/{intervalo_hora}", response_model=list[schemas.ConsultaPorIntervalo])
+@router.get(
+    "/intervalo/{intervalo_hora}", 
+    response_model=list[schemas.ConsultaPorIntervalo])
+
 def buscar_intervalo(hora_inicio: time, hora_fim: time, db: Session = Depends(get_db), usuario=Depends(get_usuario_atual)):  # noqa: B008
     return crud.buscar_consulta_intervalo(db, hora_inicio, hora_fim)

@@ -10,7 +10,7 @@ router = APIRouter(
 )
 
 @router.get(
-    "/",
+    "/listar",
     response_model=list[schemas.PacienteResponse]
 )
 def listar(db: Session = Depends(get_db), usuario=Depends(get_usuario_atual)):  # noqa: B008
